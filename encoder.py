@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-import time
 
 # Define GPIO pins for the rotary encoder
 CLK = 22  # Rotary encoder CLK pin

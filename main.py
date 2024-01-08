@@ -1,5 +1,5 @@
 import cutter as k
-import qrcode as qr
+import qrCode as qr
 import RPi.GPIO as GPIO
 
 print('K-Tape Cutter start working!')
@@ -25,19 +25,18 @@ def tape2(length, inner_length):
     k.roller()
     k.onclose_u()
 
-    length = length - inner_length -1
+    length -= 1
+    
+    length = length - inner_length
 
     while (length > 0):
         k.roller()
         length-=1
 
-    k.motor_x(366, 0.001, 0)
-    k.laser(GPIO.HIGH)
     while(inner_length>0):
         k.roller()
+        k.cutting_y()
         inner_length-=1
-    k.laser(GPIO.LOW)
-    k.motor_x(366, 0.001, 1)
     
     k.enclose_y()
 
@@ -46,31 +45,27 @@ def tape2(length, inner_length):
 # YY
 def tape3(length, inner_length):
 
+    inner1, inner2=inner_length
+    middle=length-(inner_length*2)
+
     k.roller()
     k.onclose_y()
-    
-    k.motor_x(366, 0.001, 0)
-    k.laser(GPIO.HIGH)
 
-    inner1=inner_length
     while (inner1-1>0):
         k.roller()
-        inner1-=12
-    k.laser(GPIO.LOW)
+        k.cutting_y()
+        inner1-=1
 
-    middle=length-(inner_length*2)
     while (middle>0):
         k.roller()
         middle-=1
 
-    k.laser(GPIO.HIGH)
-    inner2=inner_length
+
     while (inner2>0):
         k.roller()
+        k.cutting_y()
         inner2-=1
-    k.laser(GPIO.LOW)
 
-    k.motor_x(366, 0.001, 1)
     k.enclose_y()
 
 
@@ -81,21 +76,19 @@ def tape4(length, inner_length):
     k.roller()
     k.onclose_u()
 
-    length = length - inner_length -1
+    length -= 1
+    length = length - inner_length
 
     while (length > 0):
         k.roller()
         length-=1
 
-    k.motor_x(366, 0.001, 0)
-    k.laser(GPIO.HIGH)
+    
     while(inner_length>0):
         k.roller()
         k.cutting_f()
         inner_length-=1
-    k.laser(GPIO.LOW)
-    k.motor_x(366, 0.001, 1)
-    
+
     k.enclose_f()
 
 

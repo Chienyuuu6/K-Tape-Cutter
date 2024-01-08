@@ -4,15 +4,7 @@ import pyzbar.pyzbar as pyzbar
 import json
 
 # set up camera object called Cap which we will use to find OpenCV
-try:
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        raise Exception("Could not open video device.")
-    
-    # Rest of your code here
-except Exception as e:
-    print(e)
-
+cap = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_PLAIN
 
 def run():
@@ -26,20 +18,21 @@ def run():
     
             # Below is the method to read the QR code by detetecting the bounding box coords and decoding the hidden QR data 
             decodedObjects = pyzbar.decode(img)
+            data = 0
     
             # This is how we get that Blue Box around our Data. This will draw one, and then Write the Data along with the top
             for obj in decodedObjects:
                 
                 print(str(obj.data, 'utf-8'))
-                json_data = json.loads(json.dumps(eval(str(obj.data, 'utf-8'))))
+                data = json.loads(json.dumps(eval(str(obj.data, 'utf-8'))))
                 cv2.putText(img, str(obj.data), (50, 50),font, 2, (255, 0, 0), 3)
         
-                format = json_data['format']
-                length = json_data['length']
-                inner = json_data['inner']
+                format = data['format']
+                length = data['length']
+                inner = data['inner']
                 print('json data detect in qrcode:\n'+format+'\n'+str(length)+'\n'+str(inner)+'\n')
-                if json_data:
-                    print("data found: ", json_data)
+                if data:
+                    print("data found: ", data)
             
                     cap.release()
                     cv2.destroyAllWindows() 

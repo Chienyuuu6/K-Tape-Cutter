@@ -120,50 +120,57 @@ def move_both( speed, direction_x, direction_y):
 # tape cutting format
 # move steps
 # 5cm
-grid = 732 
-slope = 42
-remain1 = 690
-remain4 = 648
-remain2 = 282
-remain3 = 99
+grid = 692
+half = 346
+halfhalf = 173
+
+slope = 60
+
+cut1 = 632
+cut2 = 572
+
+cutY = 226
+cutF = 53
+
 
 # speed
-laser_speed = 0.025
+laser_speed = 0.02
 move_speed = 0.001
+
 # onclose
 def onclose_u():
     laser(GPIO.LOW)
-    motor_y(remain1, move_speed, 0)
+    motor_y(cut1, move_speed, 0)
     laser(GPIO.HIGH)
     move_both(laser_speed, 0,0)
     laser(GPIO.LOW)
-    motor_x(remain1, move_speed, 0)
+    motor_x(cut2, move_speed, 0)
     laser(GPIO.HIGH)
     move_both(laser_speed, 0,1)
     laser(GPIO.LOW)
-    motor_y(remain1, move_speed, 1)
+    motor_y(cut1, move_speed, 1)
     motor_x(grid, move_speed, 1)   
 
 def onclose_y():
     laser(GPIO.LOW)
-    motor_y(remain1, move_speed,0)
+    motor_y(cut1, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
-    motor_x(remain2, move_speed,0)
+    motor_x(cutY, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
-    motor_y(remain1, laser_speed,1)
+    motor_y(cut1, laser_speed,1)
     laser(GPIO.LOW)
-    motor_y(remain1, move_speed,0)
+    motor_y(cut1, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
-    motor_x(remain2, move_speed,0)
+    motor_x(cutY, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_y(remain1, move_speed,1)
+    motor_y(cut1, move_speed,1)
     motor_x(grid, move_speed,1)
   
 # enclose
@@ -172,13 +179,13 @@ def enclose_u():
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain4, move_speed,0)
+    motor_x(cut2, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
     motor_y(slope, move_speed,1)
     laser(GPIO.HIGH)
-    motor_x(grid, move_speed,1)
+    motor_x(grid, laser_speed,1)
     laser(GPIO.LOW)
     
     
@@ -187,18 +194,18 @@ def enclose_y():
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain2, move_speed,0)
+    motor_x(cutY, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain2, move_speed,0)
+    motor_x(cutY, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
     motor_y(slope, move_speed,1)
     laser(GPIO.HIGH)
-    motor_x(grid, move_speed,1)
+    motor_x(grid, laser_speed,1)
     laser(GPIO.LOW)
     
 def enclose_f():
@@ -206,7 +213,7 @@ def enclose_f():
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed,0)
+    motor_x(cutF, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
@@ -214,7 +221,7 @@ def enclose_f():
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed,0)
+    motor_x(cutF, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
@@ -222,7 +229,7 @@ def enclose_f():
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed,0)
+    motor_x(cutF, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
@@ -230,27 +237,40 @@ def enclose_f():
     laser(GPIO.HIGH)
     move_both(laser_speed,0,1)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed,0)
+    motor_x(cutF, move_speed,0)
     laser(GPIO.HIGH)
     move_both(laser_speed,0,0)
     laser(GPIO.LOW)
 
     laser(GPIO.HIGH)
-    motor_x(grid, move_speed,1)
+    motor_x(grid, laser_speed,1)
     laser(GPIO.LOW)
-    
-def cutting_f():
-    motor_x(remain3, move_speed, 0)
+
+
+def cutting_y():
+    motor_x(half, move_speed, 0)
     laser(GPIO.HIGH)
     motor_y(grid, laser_speed,0)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed, 0)
+    motor_x(half, move_speed, 0)
+    motor_y(grid, move_speed,1)
+    motor_x(grid, move_speed, 1)
+
+    
+    
+def cutting_f():
+    motor_x(halfhalf, move_speed, 0)
+    laser(GPIO.HIGH)
+    motor_y(grid, laser_speed,0)
+    laser(GPIO.LOW)
+    motor_x(halfhalf, move_speed, 0)
     laser(GPIO.HIGH)
     motor_y(grid, laser_speed,1)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed, 0)
+    motor_x(halfhalf, move_speed, 0)
     laser(GPIO.HIGH)
     motor_y(grid, laser_speed,0)
     laser(GPIO.LOW)
-    motor_x(remain3, move_speed, 0)
-    move_both(move_speed,1,1)
+    motor_x(halfhalf, move_speed, 0)
+    motor_y(grid, move_speed, 1)
+    motor_x(grid, move_speed, 1)
