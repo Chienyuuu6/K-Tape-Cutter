@@ -115,6 +115,11 @@ Go to your local computer terminal and enter:
         pip install qrcode
 
 ### 3. 3D print to make Wheel & Tube ###
+* My 3D print file: [tubeNwheels.gcode](https://github.com/Chienyuuu6/K-Tape-Cutter/blob/main/3D%20print/tubeNwheels.gcode)
+* Or you can find lots of 3D models on [PrintTables](https://www.printables.com/)
+* You can design your own 3D print file on [Tinkercad](https://www.tinkercad.com/)
+
+
 
 ##### Encoder & Wheel #####
 The purpose of having a wheel is to calculate the actual length of the pulled-out tape. Since I use a 360 ° rotary encoder to obtain the goal, I need an encoder “wheel-like”  knob.
@@ -507,6 +512,12 @@ Link here: https://github.com/Chienyuuu6/K-Tape-Cutter
 
 #### Telegram bot
 * iot-bartender for **telegram bot api**: https://github.com/chung-coder/Iot-bartender/
+
+#### 3D print
+* **Encoder wheels** that I modified from: https://www.printables.com/model/646906-encoder-wheel-for-seeder/files
+
+* **Tape roller** tube that I modified from: https://www.printables.com/model/583211-50mm-tape-roller
+
 
 #### Others
 * Green house for **motor moving tracks**: https://hackmd.io/@fGmzd-CTSGSBPbmj6Sr-nw/BJ06WFw0P#Green-House
