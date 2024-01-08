@@ -113,11 +113,9 @@ def main():
 
 
 if __name__ == '__main__':
-    while True:
         try:
             main()
         except KeyboardInterrupt:
             print('K-Tape Cutter shut down!!')
             GPIO.cleanup()
             pass
-            break
