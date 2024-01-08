@@ -24,6 +24,8 @@
 
 
 ### Demo Video
+[![video](https://hackmd.io/_uploads/S1IRTYK_a.png)
+](https://www.youtube.com/watch?v=M4aRxDg3Xf8)
 
 
 
@@ -76,12 +78,17 @@
 ## Let's make it
 
 ### System Logic
+![sysDiagram](https://hackmd.io/_uploads/H1GZrwFdp.jpg)
+
+
 
 ### Circuit Diagram
+![Circuit](https://hackmd.io/_uploads/Hk4eWPFdT.jpg)
+
 
 ## Before Getting Start
-### 1. Set up Raspberry Pi OS ###
-U can follow the instructions from this document:
+### 1. Set up [Raspberry Pi OS](https://www.raspberrypi.com/software/) ###
+
 
 ### 2. Build the environment for this project ###
 
@@ -350,10 +357,17 @@ Here's some example:
         
     # tape cutting format
     # move steps
-        grid = 660 # 5cm
-        slope = 42
-        remain1 = 618
-        remain4 = 576
+        grid = 692
+        half = 346
+        halfhalf = 173
+
+        slope = 60
+
+        cut1 = 632
+        cut2 = 590
+
+        cutY = 226
+        cutF = 53
 
     # speed
         laser_speed = 0.025
@@ -361,15 +375,15 @@ Here's some example:
     # onclose
         def onclose_u():
             laser(GPIO.LOW)
-            motor_y(remain1, move_speed, 0)
+            motor_y(cut1, move_speed, 0)
             laser(GPIO.HIGH)
             move_both(laser_speed, 0,0)
             laser(GPIO.LOW)
-            motor_x(remain4, move_speed, 0)
+            motor_x(cut2, move_speed, 0)
             laser(GPIO.HIGH)
             move_both(laser_speed, 0,1)
             laser(GPIO.LOW)
-            motor_y(remain1, move_speed, 1)
+            motor_y(cut1, move_speed, 1)
             motor_x(grid, move_speed, 1)   
 
 
@@ -396,71 +410,84 @@ Most importantly for this code to run is to     import OpenCV & the libraries we
 
     
         def run():
-    
-            try:   
-            
-                #This creates an Infinite loop to keep your camera searching for data at all times
-                while True:    
-            
-                # Below is the method to get a image of the QR code
+        try:
+            while True:
                 _, img = cap.read()
-    
-                # Below is the method to read the QR code by detetecting the bounding box coords and decoding the hidden QR data 
                 decodedObjects = pyzbar.decode(img)
-                data = 0
     
-                # This is how we get that Blue Box around our Data. This will draw one, and then Write the Data along with the top
-                for obj in decodedObjects:
-                
-                    print(str(obj.data, 'utf-8'))
-                    data = json.loads(json.dumps(eval(str(obj.data, 'utf-8'))))
-                    cv2.putText(img, str(obj.data), (50, 50),font, 2, (255, 0, 0), 3)
-        
-                    format = data['format']
-                    length = data['length']
-                    inner = data['inner']
-                    print('json data detect in qrcode:\n'+format+'\n'+str(length)+'\n'+str(inner)+'\n')
-                    if data:
-                        print("data found: ", data)
-            
-                        cap.release()
-                        cv2.destroyAllWindows() 
-                        return format, length, inner
+            # Check if any QR code is detected
+                if decodedObjects:
+                    for obj in decodedObjects:
+                        try:
+                            decoded_data = str(obj.data, 'utf-8')
+                            print(decoded_data)
 
-            
-                # Below will display the live camera feed to the Desktop on Raspberry Pi OS preview
+                            # Replace single quotes with double quotes
+                            decoded_data = decoded_data.replace("'", "\"")
+
+
+                            data = json.loads(decoded_data)
+                            format = data['format']
+                            length = data['length']
+                            inner = data['inner']
+                            print('json data detected in QR code:\n' + format + '\n' + str(length) + '\n' + str(inner) + '\n')
+                            cv2.putText(img, str(obj.data), (50, 50), font, 2, (255, 0, 0), 3)
+                            
+                            cap.release()
+                            cv2.destroyAllWindows()
+
+                            return format, length, inner
+                    
+
+                        except json.JSONDecodeError as e:
+                            print("Error decoding JSON:", e)    
+                            continue
+                        except Exception as e:
+                            print("Error processing QR code data:", e)
+                            continue
+
                 cv2.imshow("code detector", img)
     
-                #At any point if you want to stop the Code all you need to do is press 'q' on your keyboard
-                if(cv2.waitKey(1) == ord("q")):
+                if cv2.waitKey(1) == ord("q"):
                 break
     
-            # When the code is stopped the below closes all the applications/windows that the above has created
             cap.release()
             cv2.destroyAllWindows()
+
+        except KeyboardInterrupt:
+            key = cv2.waitKey(1)
+            if key == 27:
+                cap.release()
+                cv2.destroyAllWindows()
+                return
+
             
     
     **Look Deeper into the above code**
     
         for obj in decodedObjects:
-          
-              print(str(obj.data, 'utf-8'))
-              data = json.loads(json.dumps(eval(str(obj.data, 'utf-8'))))
-              cv2.putText(img, str(obj.data), (50, 50),font, 2, (255, 0, 0), 3)
-  
-              format = data['format']
-              length = data['length']
-              inner = data['inner']
-              print('json data detect in qrcode:\n'+format+'\n'+str(length)+'\n'+str(inner)+'\n')
-              if data:
-                  print("data found: ", data)
-      
-                  cap.release()
-                  cv2.destroyAllWindows() 
-                  return format, length, inner
+            try:
+                decoded_data = str(obj.data, 'utf-8')
+                print(decoded_data)
+
+                # Replace single quotes with double quotes
+                decoded_data = decoded_data.replace("'", "\"")
+
+
+                data = json.loads(decoded_data)
+                format = data['format']
+                length = data['length']
+                inner = data['inner']
+                print('json data detected in QR code:\n' + format + '\n' + str(length) + '\n' + str(inner) + '\n')
+                cv2.putText(img, str(obj.data), (50, 50), font, 2, (255, 0, 0), 3)
+                
+                cap.release()
+                cv2.destroyAllWindows()
+
+                return format, length, inner
     
         
-    These scripts help us to get the important argments and retuen to the main program that make the cutter start running!!!
+These scripts help us to get the important argments and retuen to the main program that make the cutter start running!!!
 
 
 ## Let's Coding ##
