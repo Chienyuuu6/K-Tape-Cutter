@@ -127,7 +127,7 @@ halfhalf = 173
 slope = 60
 
 cut1 = 632
-cut2 = 572
+cut2 = 590
 
 cutY = 226
 cutF = 53

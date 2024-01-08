@@ -25,7 +25,7 @@ def tape2(length, inner_length):
     k.roller()
     k.onclose_u()
 
-    length -= 1
+    length -=1
     
     length = length - inner_length
 
@@ -94,6 +94,7 @@ def tape4(length, inner_length):
 
 
 def main():
+
             format, length, inner = qr.run()
 
             if(format=='tape1'):
