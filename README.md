@@ -149,7 +149,7 @@ Follow the steps to get your own bot!
 * Instructions & Examples (v13): https://hackmd.io/@truckski/HkgaMUc24?type=view
 * Offical document: https://docs.python-telegram-bot.org/en/v20.7/
 
-### STEP4 Edit your bot in python ###
+### **STEP4** Edit your bot in python ###
 * Import the libraraies
 
             from telegram.ext import (  
