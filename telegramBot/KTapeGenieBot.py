@@ -11,7 +11,6 @@ from io import BytesIO
 import json
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-
 import qrcode
 
 # Conversation entry point
@@ -113,6 +112,7 @@ async def show_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text('請輸入有效的整數，請重新輸入：')
             return SHOWING
         print(type(tape_length))
+    
 
 
 
