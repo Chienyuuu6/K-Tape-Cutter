@@ -153,7 +153,7 @@ async def show_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token("6926390124:AAGPxrW6qkVeOuo2QrgzPiquzsJmCnEqU7s").build()
+    application = ApplicationBuilder().token("YOUR TOKEN HERE").build()
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
